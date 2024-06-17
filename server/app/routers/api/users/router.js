@@ -3,16 +3,14 @@ const express = require("express");
 const router = express.Router();
 
 /* ************************************************************************* */
-// Import And Use Routers Here
+// Define Your API Routes Here
 /* ************************************************************************* */
 
-const itemsRouter = require("./items/router");
-const userRouter = require("./users/router");
-const skillRouter = require("./skills/router");
+// Import item-related actions
+const {add, addSkill} = require("../../../controllers/userActions");
 
-router.use("/items", itemsRouter);
-router.use("/users", userRouter);
-router.use("/skills", skillRouter);
+router.post("/", add);
+router.post("/skill", addSkill);
 
 /* ************************************************************************* */
 
