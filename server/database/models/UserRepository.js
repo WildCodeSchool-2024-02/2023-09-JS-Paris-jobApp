@@ -15,6 +15,10 @@ class UserRepository extends AbstractRepository {
     );
   }
 
+  findByEmail(email) {
+    return this.database.query(`select * from ${this.table} where email = ?`, [email]);
+  }
+
   addSkill(idUser, idSkill) {
     return this.database.query(`INSERT INTO user_skills (id_user, id_skill) VALUES (?, ?)`, [idUser, idSkill]);
   }

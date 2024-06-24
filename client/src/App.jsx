@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Navbar from "./components/Navbar";
@@ -5,6 +6,7 @@ import "./App.css";
 import Footer from "./components/Footer";
 
 function App() {
+  const [auth, setAuth] = useState({isLogged: false, user: null, token: null});
   return (
     <main>
 
@@ -23,7 +25,7 @@ function App() {
 
       <Navbar />
 
-      <Outlet />
+      <Outlet context={{auth, setAuth}} />
 
       <Footer />
     </main>

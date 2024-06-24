@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
-  const isLogged = false;
+  const {auth} = useOutletContext();
 
   useEffect(() => {
-    if (!isLogged) return navigate("/login");
-    return true;
-  }, [isLogged, navigate])
+    if (!auth.isLogged) return navigate("/login");
+    return () => {};
+  }, [auth, navigate])
 
 
   return (

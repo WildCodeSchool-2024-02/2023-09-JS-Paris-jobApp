@@ -1,12 +1,32 @@
 import "./form.css";
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 function Login() {
 
   const navigate = useNavigate();
   const email = useRef();
   const password = useRef();
+
+  const {setAuth} = useOutletContext();
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
+        headers: {"Content-Type": "application/json"},
+        method: "POST",
+        body: JSON.stringify({email: email.current.value, password: password.current.value})
+      });
+      if (response.ok) {
+        const {user, token} = response.json();
+        setAuth({isLogged: true, user, token});
+        navigate("/");
+      } else toast.warn("identifiant incorrect");
+    } catch (error) {
+      toast.error("Un probleme est survenue.")
+    }
+  }
 
   return (
     <section className="form">
@@ -25,7 +45,7 @@ function Login() {
           <input type="password" name="password" ref={password} required />
           <label htmlFor="password">password</label>
         </div>
-        <button className="form_button" type="button">
+        <button className="form_button" type="button" onClick={handleSubmit}>
           Se connecter
         </button>
       </form>
