@@ -9,7 +9,11 @@ const router = express.Router();
 // Import item-related actions
 const {add, addSkill} = require("../../../controllers/userActions");
 
-router.post("/", add);
+// Import middlewares
+const validateData = require("../../../services/dataValidator");
+const userSchema = require("../../../services/validatorSchemas/user");
+
+router.post("/", validateData(userSchema), add);
 router.post("/skill", addSkill);
 
 /* ************************************************************************* */

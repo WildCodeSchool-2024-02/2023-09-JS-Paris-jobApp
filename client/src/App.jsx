@@ -1,26 +1,31 @@
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import Navbar from "./components/Navbar";
 import "./App.css";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <main className="container">
-      <header>
-        <h1 className="logo">Harmonia</h1>
-      </header>
+    <main>
 
-      <Outlet/>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
 
-      <footer>
-        Développé par la&nbsp;
-        <a
-          href="https://www.wildcodeschool.com/"
-          className="wcs"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Wild Code School
-        </a>
-      </footer>
+      <Navbar />
+
+      <Outlet />
+
+      <Footer />
     </main>
   );
 }
