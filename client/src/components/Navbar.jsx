@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,7 +12,8 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-function Navbar() {
+
+function Navbar({ auth, setAuth }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
 
@@ -22,6 +24,11 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const logout = () => {
+    setAuth({ isLogged: false, user: null, token: null });
+    navigate("/login");
+  }
 
   return (
     <AppBar position="static" sx={{ background: "#ff1493ad" }}>
@@ -67,22 +74,45 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography
-                  textAlign="center"
-                  onClick={() => navigate("/login")}
-                >
-                  Connexion
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography
-                  textAlign="center"
-                  onClick={() => navigate("/register")}
-                >
-                  Inscription
-                </Typography>
-              </MenuItem>
+              {!auth.isLogged ? (
+                <>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography
+                      textAlign="center"
+                      onClick={() => navigate("/login")}
+                    >
+                      Connexion
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography
+                      textAlign="center"
+                      onClick={() => navigate("/register")}
+                    >
+                      Inscription
+                    </Typography>
+                  </MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography
+                      textAlign="center"
+                      onClick={() => navigate("/")}
+                    >
+                      Dashboard
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography
+                      textAlign="center"
+                      onClick={logout}
+                    >
+                      Logout
+                    </Typography>
+                  </MenuItem>
+                </>
+              )}
             </Menu>
           </Box>
         </Toolbar>
@@ -90,4 +120,27 @@ function Navbar() {
     </AppBar>
   );
 }
+
+Navbar.defaultProps = {
+  auth: {isLogged: false, user: null, token: null},
+  setAuth: () => {}
+}
+
+Navbar.propTypes = {
+  auth: PropTypes.shape({
+    isLogged: PropTypes.bool,
+    user: PropTypes.shape({
+      id: PropTypes.number,
+      firstname: PropTypes.string,
+      lastname: PropTypes.string,
+      email: PropTypes.string,
+      role: PropTypes.string.valid("candidates", "company"),
+      cv: PropTypes.string,
+      address: PropTypes.string
+    }),
+    token: PropTypes.string
+  }),
+  setAuth: PropTypes.func
+};
+
 export default Navbar;

@@ -19,7 +19,7 @@ function Login() {
         body: JSON.stringify({email: email.current.value, password: password.current.value})
       });
       if (response.ok) {
-        const {user, token} = response.json();
+        const {user, token} = await response.json();
         setAuth({isLogged: true, user, token});
         navigate("/");
       } else toast.warn("identifiant incorrect");
