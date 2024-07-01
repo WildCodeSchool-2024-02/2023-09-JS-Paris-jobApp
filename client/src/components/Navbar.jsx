@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { toast } from "react-toastify";
 
 
 function Navbar({ auth, setAuth }) {
@@ -25,9 +26,15 @@ function Navbar({ auth, setAuth }) {
     setAnchorElUser(null);
   };
 
-  const logout = () => {
-    setAuth({ isLogged: false, user: null, token: null });
-    navigate("/login");
+  const logout = async () => {
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {credentials: "include"});
+      setAuth({ isLogged: false, user: null, token: null });
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+      toast.error("Une erreur est survenue");
+    }
   }
 
   return (
@@ -75,7 +82,7 @@ function Navbar({ auth, setAuth }) {
               onClose={handleCloseUserMenu}
             >
               {!auth.isLogged ? (
-                <>
+                <div>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography
                       textAlign="center"
@@ -92,9 +99,9 @@ function Navbar({ auth, setAuth }) {
                       Inscription
                     </Typography>
                   </MenuItem>
-                </>
+                </div>
               ) : (
-                <>
+                <div>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography
                       textAlign="center"
@@ -111,7 +118,7 @@ function Navbar({ auth, setAuth }) {
                       Logout
                     </Typography>
                   </MenuItem>
-                </>
+                </div>
               )}
             </Menu>
           </Box>
@@ -121,10 +128,7 @@ function Navbar({ auth, setAuth }) {
   );
 }
 
-Navbar.defaultProps = {
-  auth: {isLogged: false, user: null, token: null},
-  setAuth: () => {}
-}
+
 
 Navbar.propTypes = {
   auth: PropTypes.shape({
@@ -134,7 +138,7 @@ Navbar.propTypes = {
       firstname: PropTypes.string,
       lastname: PropTypes.string,
       email: PropTypes.string,
-      role: PropTypes.string.valid("candidates", "company"),
+      role: PropTypes.string,
       cv: PropTypes.string,
       address: PropTypes.string
     }),

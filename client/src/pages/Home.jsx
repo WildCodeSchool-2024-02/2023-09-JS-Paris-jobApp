@@ -15,6 +15,7 @@ export default function Home() {
             headers: {
               Authorization: `Bearer ${auth.token}`,
             },
+            credentials: "include"
           }
         );
         if (response.ok) {
@@ -25,8 +26,7 @@ export default function Home() {
         console.error(error);
       }
     };
-
-    if (!auth.isLogged) return navigate("/login");
+    
     fetchOffersByUser();
     return () => {};
   }, [auth, navigate]);
