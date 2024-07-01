@@ -7,9 +7,14 @@ const router = express.Router();
 /* ************************************************************************* */
 
 // Import item-related actions
-const {addSkill} = require("../../../controllers/userActions");
+const { register, login } = require("../../../controllers/authActions");
 
-router.post("/skill", addSkill);
+// Import middlewares
+const validateData = require("../../../services/dataValidator");
+const userSchema = require("../../../services/validatorSchemas/user");
+
+router.post("/register", validateData(userSchema), register);
+router.post("/login", login);
 
 /* ************************************************************************* */
 

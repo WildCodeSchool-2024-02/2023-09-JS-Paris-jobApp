@@ -75,7 +75,7 @@ function Navbar({ auth, setAuth }) {
               onClose={handleCloseUserMenu}
             >
               {!auth.isLogged ? (
-                <>
+                <div>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography
                       textAlign="center"
@@ -92,9 +92,9 @@ function Navbar({ auth, setAuth }) {
                       Inscription
                     </Typography>
                   </MenuItem>
-                </>
+                </div>
               ) : (
-                <>
+                <div>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography
                       textAlign="center"
@@ -111,7 +111,7 @@ function Navbar({ auth, setAuth }) {
                       Logout
                     </Typography>
                   </MenuItem>
-                </>
+                </div>
               )}
             </Menu>
           </Box>
@@ -119,11 +119,6 @@ function Navbar({ auth, setAuth }) {
       </Container>
     </AppBar>
   );
-}
-
-Navbar.defaultProps = {
-  auth: {isLogged: false, user: null, token: null},
-  setAuth: () => {}
 }
 
 Navbar.propTypes = {
@@ -134,7 +129,7 @@ Navbar.propTypes = {
       firstname: PropTypes.string,
       lastname: PropTypes.string,
       email: PropTypes.string,
-      role: PropTypes.string.valid("candidates", "company"),
+      role: PropTypes.string,
       cv: PropTypes.string,
       address: PropTypes.string
     }),

@@ -18,6 +18,7 @@
   "rules": {
     "no-console": ["error", { "allow": ["error", "info", "warn"] }],
     "react/react-in-jsx-scope": "off",
+    "react/require-default-props": "off",
     "react/jsx-one-expression-per-line": "off",
     "react/no-unescaped-entities": "off",
     "jsx-a11y/label-has-associated-control": [

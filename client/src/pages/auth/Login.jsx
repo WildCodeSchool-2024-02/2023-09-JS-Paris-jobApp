@@ -13,7 +13,7 @@ function Login() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
         headers: {"Content-Type": "application/json"},
         method: "POST",
         body: JSON.stringify({email: email.current.value, password: password.current.value})
