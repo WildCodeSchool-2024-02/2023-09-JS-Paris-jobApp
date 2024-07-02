@@ -25,7 +25,8 @@ function Navbar({ auth, setAuth }) {
     setAnchorElUser(null);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {credentials: "include"});
     setAuth({ isLogged: false, user: null, token: null });
     navigate("/login");
   }

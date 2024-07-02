@@ -18,13 +18,22 @@ const login = async (req, res, next) => {
     const [[user]] = await tables.user.findByEmail(req.body.email);
     if (user) {
       if (await argon2.verify(user.password, req.body.password)) {
-        const token = jwt.sign(
+        const accessToken = jwt.sign(
           { id: user.id, role: user.role },
           process.env.APP_SECRET,
           { expiresIn: "1h" }
         );
+        const refreshToken = jwt.sign({id: user.id, role: user.role}, process.env.APP_SECRET, {expiresIn: "1d"});
         delete user.password;
-        res.status(200).json({ user, token });
+        res
+          .status(200)
+          .header("Authorization", accessToken)
+          .cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            sameSite: "none",
+            expires: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1),
+          })
+          .json(user);
       } else res.status(400).json("wrong credentials");
     } else res.sendStatus(404);
   } catch (error) {
@@ -33,4 +42,24 @@ const login = async (req, res, next) => {
 };
 
 
-module.exports = {register, login};
+const refresh = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.cookies;
+    if (!refreshToken) res.sendStatus(401);
+    else {
+      const decoded = jwt.verify(refreshToken, process.env.APP_SECRET);
+      const accessToken = jwt.sign({id: decoded.id, role: decoded.role}, process.env.APP_SECRET, {expiresIn: "1h"});
+      const [[user]] = await tables.user.read(decoded.id);
+      delete user.password;
+      res.status(200).header("Authorization", accessToken).json(user);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+const logout = ({res}) => {
+  res.clearCookie("refreshToken").sendStatus(200);
+}
+
+module.exports = { register, login, refresh, logout };

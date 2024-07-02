@@ -16,10 +16,12 @@ function Login() {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
         headers: {"Content-Type": "application/json"},
         method: "POST",
-        body: JSON.stringify({email: email.current.value, password: password.current.value})
+        body: JSON.stringify({email: email.current.value, password: password.current.value}),
+        credentials: "include"
       });
       if (response.ok) {
-        const {user, token} = await response.json();
+        const token = response.headers.get("Authorization");
+        const user = await response.json();
         setAuth({isLogged: true, user, token});
         navigate("/");
       } else toast.warn("identifiant incorrect");

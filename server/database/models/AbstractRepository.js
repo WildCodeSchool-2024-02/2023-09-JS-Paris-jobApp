@@ -17,6 +17,10 @@ class AbstractRepository {
     // Provide access to the database client
     this.database = database;
   }
+
+  read(id) {
+    return this.database.query(`select * from ${this.table} WHERE id = ?`, [id]);
+  }
 }
 
 // Ready to export
