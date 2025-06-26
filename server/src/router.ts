@@ -13,6 +13,11 @@ router.get("/api/items", itemActions.browse);
 router.get("/api/items/:id", itemActions.read);
 router.post("/api/items", itemActions.add);
 
+import offerActions from "./modules/offer/offerActions";
+
+router.get("/api/offers", offerActions.browse);
+router.get("/api/offers/:id", offerActions.read);
+
 /* ************************************************************************* */
 
 export default router;

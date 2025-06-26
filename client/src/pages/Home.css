@@ -1,0 +1,14 @@
+.home {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.home .form_logo {
+  width: 100%;
+  text-align: center;
+}
+
+.home .form_title {
+  width: 100%;
+  text-align: center;
+}

@@ -10,7 +10,13 @@
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router": "^7.4.1"
+    "react-router": "^7.4.1",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.20",
+    "@mui/material": "^5.15.20",
+    "prop-types": "^15.8.1",
+    "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "@types/react": "^19.0.12",

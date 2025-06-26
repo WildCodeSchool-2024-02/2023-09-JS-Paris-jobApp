@@ -1,47 +1,46 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
   font-family: "Lato", sans-serif;
+  font-weight: 400;
   font-size: 16px;
   line-height: 1.7;
   color: #eee;
   margin: 0;
 }
 
-#root {
-  height: 100vh;
-  background-image: url("./assets/images/background.webp");
-  background-size: cover;
-  background-position: top;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-rows: 1fr;
-  align-content: start;
-  padding: 1rem;
+section.form {
+  margin-top: 10vh;
 }
 
-header {
-  grid-column: 1 / 2;
-  grid-row: 1;
+section > img {
+  width: 100%;
+}
+
+.MuiPaper-root {
+  background: #ff1493ad !important;
+  color: white !important;
+}
+
+.container {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 30px;
+}
+
+header > h1 {
+  cursor: pointer;
 }
 
 .logo {
-  font-size: larger;
-}
-
-.navbar {
-  grid-column: -2 / -1;
-  grid-row: 1;
+  font-size: 20px;
+  margin-top: 16px;
 }
 
 .navbar ul {
   display: flex;
-  justify-content: end;
-  gap: 1rem;
+  gap: 20px;
   list-style: none;
 }
 
@@ -49,8 +48,10 @@ header {
   text-decoration: none;
   color: #eee;
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
+  gap: 5px;
+  justify-content: end;
+  margin-top: auto;
+  font-size: 15px;
 }
 
 .navbar a:hover {
@@ -58,26 +59,29 @@ header {
 }
 
 .text-box {
-  grid-column: 1 / -1;
-  grid-row: 1;
-  align-self: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
 }
 
 .block-primary {
   text-transform: uppercase;
-  margin-bottom: 2rem;
+  margin-bottom: 30px;
 }
 
 .block-primary-main {
-  font-size: 3em;
+  font-size: 50px;
+  font-weight: 400;
   letter-spacing: 5px;
   animation: blink 12s infinite;
 }
 
 .block-primary-sub {
   display: block;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 700;
   letter-spacing: 7px;
 }
 
@@ -85,7 +89,7 @@ header {
 .btn:visited {
   text-transform: uppercase;
   text-decoration: none;
-  padding: 0.5rem 1rem;
+  padding: 10px 20px;
   display: inline-block;
   border-radius: 100px;
   transition: all 0.2s;
@@ -105,13 +109,15 @@ header {
 .btn-white {
   background-color: #fff;
   color: #777;
+  font-size: 14px;
 }
 
 footer {
-  grid-column: -2 / -1;
-  grid-row: 1;
-  align-self: end;
-  text-align: right;
+  position: relative;
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .wcs {
@@ -120,7 +126,31 @@ footer {
 }
 
 .wcs:hover {
-  text-decoration: underline;
+  border-bottom: solid 1px #ff1493ad;
+}
+
+@media screen and (max-width: 760px) {
+  .logo {
+    display: none;
+  }
+
+  .container {
+    justify-content: center;
+  }
+
+  footer {
+    position: absolute;
+    top: 85%;
+    left: 20%;
+  }
+}
+
+@media screen and (min-width: 761px) and (max-width: 960px) {
+  footer {
+    position: absolute;
+    top: 85%;
+    left: 60%;
+  }
 }
 
 @keyframes blink {

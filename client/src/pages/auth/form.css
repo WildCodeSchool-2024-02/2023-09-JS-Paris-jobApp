@@ -1,0 +1,200 @@
+/*imports*/
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+@import url("https://fonts.googleapis.com/css?family=Lobster");
+
+/* variables */
+:root {
+  /* colors */
+  --primary-color: #f44336;
+  --primary-color-dark: color(#f44336 shade(12%));
+  --primary-color-tint: color(#f44336 tint(70%));
+  --secondary-color: #222;
+  --secodnary-color-dark: color(#222 shade(12%));
+  --secondary-color-tint: color(#222 tint(70%));
+
+  /* width */
+  --form-width: 16rem;
+}
+
+body {
+  color: #fff;
+  background: #222;
+  font-family: "Open Sans", sans-serif;
+}
+
+.form {
+  width: 16rem;
+  width: var(--form-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto 0 auto;
+}
+
+button {
+  cursor: pointer;
+}
+
+select {
+  padding: 10px 20px 10px 10px;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+  font-family: "Trebuchet MS", arial;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  -webkit-appearance: none;
+  appearance: none;
+  border: 0;
+  outline: 0;
+  transition: 0.3s ease all;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50px' height='50px'><polyline points='46.139,15.518 25.166,36.49 4.193,15.519' fill='rgba(255,255,255,.5)'/></svg>");
+  background-color: #3498db;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
+}
+
+.select {
+  background-color: #1a16164a;
+  border: 1px solid #ff1493ad;
+}
+
+select:focus,
+select:active {
+  border: 0;
+  outline: 0;
+}
+
+.form_logo {
+  font-family: "Lobster", cursive;
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+.form_logo span {
+  color: #f44336;
+  color: var(--primary-color);
+}
+
+.form_title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.form_title span {
+  color: #f44336;
+  color: var(--primary-color);
+}
+
+.form_items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form_inputs {
+  width: 16rem;
+  width: var(--form-width);
+  color: color(#222 tint(70%));
+  color: var(--secondary-color-tint);
+  margin: 1rem 0;
+  position: relative;
+}
+
+.form_inputs label {
+  font-size: 16px;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  pointer-events: none;
+  transition: all 0.15s ease;
+}
+
+.form_inputs input {
+  width: 100%;
+  height: 36px;
+  background: inherit;
+  border: none;
+  border-bottom: 1px solid;
+  color: inherit;
+}
+
+.form_inputs input:focus,
+.form_inputs input:valid {
+  outline: none;
+  border-width: 2px;
+  margin-bottom: -1px;
+  border-color: #f44336;
+  border-color: var(--primary-color);
+}
+
+.form_inputs input:focus + label,
+.form_inputs input:valid + label {
+  transform: translateY(-20px);
+  font-size: 70%;
+  color: #f44336;
+  color: var(--primary-color);
+}
+
+.form_button {
+  width: 100%;
+  height: 36px;
+  margin-top: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border: none;
+  border-radius: 2px;
+  color: white;
+  background: #f44336;
+  background: var(--primary-color);
+  box-shadow: 2px 2px 2px color(#f44336 shade(12%));
+  box-shadow: 2px 2px 2px var(--primary-color-dark);
+}
+
+.form_button:hover {
+  background: #ff1493ad;
+}
+
+.form_button_register {
+  height: 26px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 2px;
+  color: white;
+  background: #646464ad;
+  box-shadow: 2px 2px 2px color(#f44336 shade(12%));
+  box-shadow: 2px 2px 2px var(--primary-color-dark);
+  width: 100%;
+}
+
+.form_button_register:hover {
+  background: #ff1493ad;
+}
+
+.form_button:focus {
+  outline: none;
+}
+
+.form_button:active {
+  outline: none;
+  background: color(#f44336 shade(12%));
+  background: var(--primary-color-dark);
+}
+
+.form_other {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form_other a {
+  color: #f44336;
+  color: var(--primary-color);
+  text-decoration: none;
+}
