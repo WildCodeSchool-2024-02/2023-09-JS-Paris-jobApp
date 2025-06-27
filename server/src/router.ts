@@ -17,6 +17,7 @@ import offerActions from "./modules/offer/offerActions";
 
 router.get("/api/offers", offerActions.browse);
 router.get("/api/offers/:id", offerActions.read);
+router.post("/api/offers/:id/candidate", offerActions.addCandidate);
 
 /* ************************************************************************* */
 
