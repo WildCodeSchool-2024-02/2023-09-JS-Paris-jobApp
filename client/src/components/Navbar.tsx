@@ -8,16 +8,17 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-import LogoIcon from "./Logo"; // import du nouveau composant logo icône
+import LogoIcon from "./Logo";
+import { UserContext } from "../contexts/user.context";
 
 function Navbar() {
   const [anchorElUser, setAnchorElUser] = useState<HTMLButtonElement | null>(
     null,
   );
   const navigate = useNavigate();
-  const isLogged = true;
+	const userContext = useContext(UserContext);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -25,7 +26,13 @@ function Navbar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+		logout();
   };
+
+	const logout = () => {
+		userContext?.setUser(undefined);
+		navigate("/login");
+	}
 
   return (
     <AppBar position="static" sx={{ background: "#ff1493ad" }}>
@@ -55,7 +62,7 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {!isLogged ? (
+              {!userContext?.user ? (
                 <>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography

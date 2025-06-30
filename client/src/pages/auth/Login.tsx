@@ -1,8 +1,39 @@
+import { useContext, useRef } from "react";
 import "./form.css";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import { UserContext } from "../../contexts/user.context";
 
 function Login() {
   const navigate = useNavigate();
+	const email = useRef<HTMLInputElement>(null);
+	const password = useRef<HTMLInputElement>(null);
+	const userContext = useContext(UserContext)
+
+	const login = async () => {
+		try {
+			const fetchOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: (email.current as HTMLInputElement).value,
+      password: (password.current as HTMLInputElement).value,
+    }),
+  };
+			const response = await fetch("http://localhost:3310/api/users/login", fetchOptions);
+			if (!response.ok) toast.warning("Identifiant incorrect");
+			else {
+				const {user, token} = await response.json()
+				user.token = token;
+				userContext?.setUser(user);
+				toast.success("Vous etes bien connecter");
+				navigate("/");
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Une erreur est survenue")
+		}
+	}
 
   return (
     <section className="form">
@@ -14,14 +45,14 @@ function Login() {
       </div>
       <form className="form_items">
         <div className="form_inputs">
-          <input type="text" name="email" required />
+          <input ref={email} type="text" name="email" required />
           <label htmlFor="email">email</label>
         </div>
         <div className="form_inputs">
-          <input type="password" name="password" required />
+          <input ref={password} type="password" name="password" required />
           <label htmlFor="password">password</label>
         </div>
-        <button className="form_button" type="button">
+        <button onClick={login} className="form_button" type="button">
           Se connecter
         </button>
       </form>

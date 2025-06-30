@@ -1,29 +1,36 @@
 import "./Home.css";
 import { Box, Button, Container, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import OfferCard from "../components/OfferCard";
 import type { Offer } from "../types/vite-env";
+import { UserContext } from "../contexts/user.context";
 
 export default function Home() {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [page, setPage] = useState(1);
-  console.log(page, offers[0]?.count);
-
-  const loadOffers = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3310/api/offers?include=skills&page=${page}&limit=12`,
-      );
-      const offers = await response.json();
-      setOffers(offers);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [totalOffers, setTotalOffers] = useState(0);
+	const userContext = useContext(UserContext)
 
   useEffect(() => {
+    const loadOffers = async () => {
+      try {
+				const fetchOptions = {
+					headers: { Authorization: `Bearer ${userContext?.user?.token}` },
+				};
+        const response = await fetch(
+          `http://localhost:3310/api/offers?include=skills&page=${page}&limit=12`,
+					fetchOptions
+        );
+        const { offers, totalOffers } = await response.json();
+        setOffers(offers);
+        setTotalOffers(totalOffers);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+		
     loadOffers();
-  }, [page, loadOffers]);
+  }, [page, userContext]);
 
   return (
     <section className="home">
@@ -64,7 +71,7 @@ export default function Home() {
             <Button
               variant="contained"
               color="primary"
-              disabled={page * 12 >= Number(offers[0]?.count)} // mettre true si page === totalPages
+              disabled={page * 12 >= totalOffers} // mettre true si page === totalPages
               onClick={() => setPage(page + 1)}
             >
               Suivant

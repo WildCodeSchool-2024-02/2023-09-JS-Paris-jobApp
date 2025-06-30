@@ -13,3 +13,15 @@ export interface Offer {
   count: number;
   status?: "open" | "closed";
 }
+
+export interface User {
+  id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  role: string;
+  cv: string;
+  address: string;
+	token: string;
+}

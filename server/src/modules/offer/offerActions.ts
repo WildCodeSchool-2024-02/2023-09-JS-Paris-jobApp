@@ -28,7 +28,7 @@ const read: RequestHandler = async (req, res, next) => {
 const addCandidate: RequestHandler = async (req, res, next) => {
 	try {
 		const idOffer = Number(req.params.id);
-		const idCandidate = req.body.idUser;
+		const idCandidate = req.body.user.id;
 		const candidate = await offerRepository.readCandidateByUserAndOffer(idOffer, idCandidate);
 		
 		if (candidate) res.status(400).json("Cette utilisateur à déjà candidater à cette offre");

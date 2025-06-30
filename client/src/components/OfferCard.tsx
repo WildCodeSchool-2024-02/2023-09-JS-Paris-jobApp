@@ -19,7 +19,7 @@ function OfferCard(props: Offer) {
     description,
     location,
     company,
-    skills = [],
+    skills = null,
     status = "open",
   } = props;
 
@@ -59,9 +59,9 @@ function OfferCard(props: Offer) {
 
         {skills && (
           <Stack direction="row" spacing={1} flexWrap="wrap">
-            {(skills as string)?.split(",")?.map((skill) => (
+						{skills?.split(",")?.map((skill) => (
               <Chip key={skill} label={skill} size="small" color="primary" />
-            ))}
+						))}
           </Stack>
         )}
       </CardContent>
