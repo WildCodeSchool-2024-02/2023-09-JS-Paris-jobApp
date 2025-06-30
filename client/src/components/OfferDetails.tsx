@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import type { Offer } from "../types/vite-env";
 import { toast } from "react-toastify";
-import { useNavigate, useOutletContext } from "react-router";
+import { useNavigate } from "react-router";
 import { useContext } from "react";
 import { UserContext } from "../contexts/user.context";
 
