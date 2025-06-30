@@ -7,7 +7,6 @@ import type { Offer } from "../types/vite-env";
 export default function Home() {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [page, setPage] = useState(1);
-  console.log(page, offers[0]?.count);
 
   useEffect(() => {
     const loadOffers = async () => {
