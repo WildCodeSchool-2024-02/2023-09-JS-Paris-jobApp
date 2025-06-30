@@ -15,7 +15,7 @@ export default function Home() {
         const response = await fetch(
           `http://localhost:3310/api/offers?include=skills&page=${page}&limit=12`,
         );
-        const offers = await response.json();
+        const {offers} = await response.json();
         setOffers(offers);
       } catch (error) {
         console.error(error);
