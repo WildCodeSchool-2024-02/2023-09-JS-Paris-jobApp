@@ -8,6 +8,8 @@ import {
   useTheme,
 } from "@mui/material";
 import type { Offer } from "../types/vite-env";
+import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router";
 
 function OfferDetail(props: Offer) {
   const {
@@ -22,6 +24,34 @@ function OfferDetail(props: Offer) {
 
   const theme = useTheme();
   const isClosed = status === "closed";
+	const navigate = useNavigate();
+	const {id} = useParams();
+
+  const candidate = async () => {
+    try {
+      const fetchOptions = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idUser: 4 }),
+        method: "POST",
+      };
+      const response = await fetch(
+        `http://localhost:3310/api/offers/${id}/candidate`,
+        fetchOptions,
+      );
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        toast.warning(errorMessage);
+      } else {
+        toast.success("Votre candidature à bien été prise en compte.");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("erreur serveur");
+    }
+  };
 
   return (
     <Paper
@@ -66,8 +96,8 @@ function OfferDetail(props: Offer) {
             Compétences requises :
           </Typography>
           <Stack direction="row" spacing={1} flexWrap="wrap" mb={2}>
-            {(skills as string)?.split(",")?.map((skill, index) => (
-              <Chip key={index} label={skill} color="primary" />
+            {(skills as string)?.split(",")?.map((skill) => (
+              <Chip key={skill} label={skill} color="primary" />
             ))}
           </Stack>
         </>
@@ -81,6 +111,7 @@ function OfferDetail(props: Offer) {
         size="large"
         fullWidth
         color={isClosed ? "inherit" : "primary"}
+				onClick={candidate}
       >
         {isClosed ? "Offre fermée" : "Postuler"}
       </Button>
