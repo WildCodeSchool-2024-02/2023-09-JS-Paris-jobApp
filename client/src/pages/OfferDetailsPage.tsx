@@ -8,19 +8,18 @@ function OfferDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [offer, setOffer] = useState<Offer>();
 
-  const loadOffer = async () => {
-    try {
-      const response = await fetch(`http://localhost:3310/api/offers/${id}`);
-      const offer = await response.json();
-      setOffer(offer);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
+    const loadOffer = async () => {
+      try {
+        const response = await fetch(`http://localhost:3310/api/offers/${id}`);
+        const offer = await response.json();
+        setOffer(offer);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     loadOffer();
-  }, [loadOffer]);
+  }, [id]);
 
   if (!offer) {
     return (
