@@ -1,25 +1,34 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import BackButton from "../components/BackButton"; // idem
 import OfferDetail from "../components/OfferDetails"; // adapte le chemin si besoin
 import type { Offer } from "../types/vite-env";
+import { UserContext } from "../contexts/user.context";
+import { toast } from "react-toastify";
 
 function OfferDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [offer, setOffer] = useState<Offer>();
+	const context = useContext(UserContext);
 
   useEffect(() => {
     const loadOffer = async () => {
-      try {
-        const response = await fetch(`http://localhost:3310/api/offers/${id}`);
-        const offer = await response.json();
-        setOffer(offer);
+			try {
+				const fetchOptions = {
+					headers: { Authorization: `Bearer ${context?.user?.token}` },
+				};
+        const response = await fetch(`http://localhost:3310/api/offers/${id}`, fetchOptions);
+				if (!response.ok) toast.warning("Vous devez authentifier pour effectuer cette action.");
+				else {
+					const offer = await response.json();
+					setOffer(offer);
+				}
       } catch (error) {
         console.error(error);
       }
     };
     loadOffer();
-  }, [id]);
+  }, [id, context]);
 
   if (!offer) {
     return (

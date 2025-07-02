@@ -10,6 +10,8 @@ import {
 import type { Offer } from "../types/vite-env";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router";
+import { useContext } from "react";
+import { UserContext } from "../contexts/user.context";
 
 function OfferDetail(props: Offer) {
   const {
@@ -26,12 +28,14 @@ function OfferDetail(props: Offer) {
   const isClosed = status === "closed";
 	const navigate = useNavigate();
 	const {id} = useParams();
+	const context = useContext(UserContext);
 
   const candidate = async () => {
     try {
       const fetchOptions = {
         headers: {
           "Content-Type": "application/json",
+					"Authorization": `Bearer ${context?.user?.token}`
         },
         body: JSON.stringify({ idUser: 4 }),
         method: "POST",
