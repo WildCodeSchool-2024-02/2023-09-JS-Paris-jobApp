@@ -11,21 +11,71 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import type { Offer } from "../types/vite-env";
+import { toast } from "react-toastify";
+import { useContext } from "react";
+import { UserContext } from "../contexts/user.context";
 
-function OfferCard(props: Offer) {
+interface OfferCardProps {
+  id: number;
+  title: string;
+  description: string;
+  location: string;
+  company: string;
+  date_of_creation: string;
+  skills?: string;
+  count: number;
+  status?: "open" | "closed";
+  favorite: boolean;
+  setUpdatedFavorite: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function OfferCard(props: OfferCardProps) {
   const {
     id,
     title,
     description,
     location,
     company,
-    skills = [],
+    skills = null,
     status = "open",
+    favorite,
+    setUpdatedFavorite,
   } = props;
 
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
   const navigate = useNavigate();
+	const context = useContext(UserContext);
+
+	const addFavorite = async () => {
+		try {
+			const fetchOptions = {method: "POST", headers: {"Authorization": `Bearer ${context?.user?.token}`}};
+			const response = await fetch(`http://localhost:3310/api/offers/${id}/favorite`, fetchOptions);
+			if (!response.ok) toast.warning("Vous avez déjà rajouter cette offre en favories.");
+			else {
+				toast.success("L'offre à bien été rajouter a vos favories.");
+				setUpdatedFavorite((prev) => !prev);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Une erreur est survenue.")
+		}
+	} 	
+
+	const deleteFavorite = async () => {
+		try {
+			const fetchOptions = {method: "DELETE", headers: {"Authorization": `Bearer ${context?.user?.token}`}};
+			const response = await fetch(`http://localhost:3310/api/offers/${id}/favorite`, fetchOptions);
+			if (!response.ok) toast.warning("cette offre ne fait pas partie de vos favories");
+			else {
+				toast.success("L'offre à bien été supprimer de vos favories.");
+				setUpdatedFavorite((prev) => !prev);
+			} 
+		} catch (error) {
+			console.error(error);
+			toast.error("Une erreur est survenue.")
+		}
+	} 	
 
   return (
     <Card
@@ -65,7 +115,17 @@ function OfferCard(props: Offer) {
           </Stack>
         )}
       </CardContent>
-
+      <CardActions>
+        <Box sx={{ flexGrow: 1 }} />
+        <Button
+          size="small"
+          variant="contained"
+          disabled={status === "closed"}
+          onClick={favorite ? deleteFavorite : addFavorite}
+        >
+          {favorite ? "Supprimer des favories" : "Ajouter aux favories"}
+        </Button>
+      </CardActions>
       <CardActions>
         <Box sx={{ flexGrow: 1 }} />
         <Button

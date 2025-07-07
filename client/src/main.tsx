@@ -9,6 +9,7 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import { UserContext, UserProvider } from "./contexts/user.context";
 import { useContext, useEffect, type ReactNode } from 'react';
+import Favorites from "./pages/Favorites";
 
 const PrivateRoute = ({children}: {children: ReactNode}) => {
 	const context = useContext(UserContext);
@@ -69,7 +70,15 @@ const router = createBrowserRouter([
 						</CandidateRoute>
 					</PrivateRoute>
 				)
-      },	
+      },
+			{
+				path: "/profile",
+				element: (
+					<PrivateRoute>
+						<Favorites />
+					</PrivateRoute>
+				)
+			}
     ],
   },
 ]);

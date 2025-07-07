@@ -18,10 +18,13 @@ import userActions from "./modules/user/userActions";
 
 router.get("/api/offers", userActions.isAuth, offerActions.browse);
 router.get("/api/offers/:id", userActions.isAuth, offerActions.read);
+router.post("/api/offers/:id/favorite", userActions.isAuth, offerActions.addFavorite);
+router.delete("/api/offers/:id/favorite", userActions.isAuth, offerActions.deleteFavorite);
 router.post("/api/offers/:id/candidate", userActions.isAuth, userActions.isCandidate, offerActions.addCandidate);
 
 
 router.post("/api/users", userActions.validate, userActions.create);
+router.get("/api/users/:id/favorites", userActions.isAuth, userActions.browseOffersFavorites);
 router.post("/api/users/login", userActions.login);
 
 /* ************************************************************************* */

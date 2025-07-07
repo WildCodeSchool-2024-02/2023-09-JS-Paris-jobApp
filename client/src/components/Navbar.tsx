@@ -87,7 +87,7 @@ function Navbar() {
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography
                       textAlign="center"
-                      onClick={() => navigate("/")}
+                      onClick={() => navigate("/profile")}
                     >
                       Favoris
                     </Typography>

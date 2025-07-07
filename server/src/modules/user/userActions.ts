@@ -2,6 +2,7 @@ import type { RequestHandler } from "express";
 import userRepository from "./userRepository";
 import argon from "argon2";
 import jwt from "jsonwebtoken";
+import offerRepository from "../offer/offerRepository";
 
 const create: RequestHandler = async (req, res, next) => {
 	try {
@@ -85,4 +86,17 @@ const isCandidate: RequestHandler = async (req, res, next) => {
 	else next();
 }
 
-export default { create, validate, login, isAuth, isCompany, isCandidate };
+const browseOffersFavorites: RequestHandler = async (req, res, next) => {
+	try {
+		const idUser = Number(req.params.id);
+		if (idUser !== req.body.user.id) res.sendStatus(401);
+		else {
+			const offers = await offerRepository.readAllByUserId(idUser);
+			res.json(offers);
+		}
+	} catch (error) {
+		next(error);
+	}
+}
+
+export default { create, validate, login, isAuth, isCompany, isCandidate, browseOffersFavorites };

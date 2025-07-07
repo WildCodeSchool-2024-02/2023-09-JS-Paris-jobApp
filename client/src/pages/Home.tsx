@@ -8,32 +8,37 @@ import { toast } from "react-toastify";
 
 export default function Home() {
   const [offers, setOffers] = useState<Offer[]>([]);
+  const [updatedFavorite, setUpdatedFavorite] = useState<boolean>(false);
   const [page, setPage] = useState(1);
-	const context = useContext(UserContext);
+  const context = useContext(UserContext);
 
   useEffect(() => {
     const loadOffers = async () => {
       try {
-				const fetchOptions = { headers: {"Authorization": `Bearer ${context?.user?.token}`}}
+        const fetchOptions = {
+          headers: { Authorization: `Bearer ${context?.user?.token}` },
+        };
         const response = await fetch(
           `http://localhost:3310/api/offers?include=skills&page=${page}&limit=12`,
-					fetchOptions
+          fetchOptions,
         );
-				if (!response.ok) toast.warning("Vous devez authentifier pour effectuer cette action.");
-				else {
-					const { offers } = await response.json();
-    			setOffers(offers);
-				}
+        if (!response.ok)
+          toast.warning("Vous devez authentifier pour effectuer cette action.");
+        else {
+          const { offers } = await response.json();
+          setOffers(offers);
+        }
       } catch (error) {
         console.error(error);
       }
     };
     loadOffers();
-  }, [page, context]);
+		console.info(updatedFavorite)
+  }, [page, context, updatedFavorite]);
 
   return (
     <section className="home">
-			<h3>Hello {context?.user?.firstname}</h3>
+      <h3>Hello {context?.user?.firstname}</h3>
       <div className="form_logo">
         <span>Job</span> App
       </div>
@@ -53,6 +58,8 @@ export default function Home() {
                 skills={offer?.skills}
                 count={offer?.count}
                 status={offer.status}
+                favorite={!!offer.favorites}
+                setUpdatedFavorite={setUpdatedFavorite}
               />
             </>
           ))}

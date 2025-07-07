@@ -12,6 +12,7 @@ export interface Offer {
   skills?: string;
   count: number;
   status?: "open" | "closed";
+	favorites: string
 }
 
 export interface User {
